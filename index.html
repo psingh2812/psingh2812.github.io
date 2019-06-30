@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+</head>
+<body>
+    <button onclick="go()">Generate VisualScript</button>
+
+    <script src="https://cs1.smartdraw.com/assets/api/sdapi-v1.min.js"></script>
+    <script type="text/javascript">
+        var go = function ()
+        {
+            var vs =
+            {
+
+                Shape:
+                {
+                    Label: "Hello World"
+                }
+            };
+
+            SDAPI.VS.VSDone(vs, function (crossWindowMessage)
+            {
+                if (crossWindowMessage.Payload === false)
+                {
+                    if (crossWindowMessage.ErrorMessage != null) console.log(crossWindowMessage.ErrorMessage);
+                    return;
+                }
+
+                //if the call telling SmartDraw to create a diagram from the VisualScript or inject the VisualScript into the current diagram succeeded, there will be no callback
+            });
+        };
+    </script>
+</body>
+</html>
