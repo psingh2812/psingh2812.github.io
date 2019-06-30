@@ -6,10 +6,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 </head>
 <body>
+    <button onclick="setSettings()">Set Settings</button>
+    <button onclick="getSettings()">Get Settings</button>
     <button onclick="go()">Generate VisualScript</button>
+    <div>
+        <textarea id="settings" style="height: 200px; width: 500px;"></textarea>
+    </div>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cs1.smartdraw.com/assets/api/sdapi-v1.min.js"></script>
+
     <script type="text/javascript">
+        var settings = $("#settings");
+
+        var setSettings = function ()
+        {
+            var currentSettings = settings.val();
+            SDAPI.VS.SetUserSettings(currentSettings, function (crossWindowMessage)
+            {
+                if (crossWindowMessage.Payload === false)
+                {
+                    if (crossWindowMessage.ErrorMessage != null) console.log(crossWindowMessage.ErrorMessage);
+                }
+                else
+                {
+                    alert("Set user settings to " + currentSettings);
+                }
+            });
+        };
+
+        var getSettings = function ()
+        {
+            SDAPI.VS.GetUserSettings(function (crossWindowMessage)
+            {
+                if (crossWindowMessage.Payload == null)
+                {
+                    if (crossWindowMessage.ErrorMessage != null) console.log(crossWindowMessage.ErrorMessage);
+                }
+                else
+                {
+                    alert("Server returned user settings: " + crossWindowMessage.Payload);
+                }
+            });
+        };
+
         var go = function ()
         {
             var vs =
@@ -29,9 +69,10 @@
                     return;
                 }
 
-                //if the call telling SmartDraw to create a diagram from the VisualScript or inject the VisualScript into the current diagram succeeded, there will be no callback
+                //if the call telling SmartDraw to create a diagram from the VisualScript or inject the VisualScript into the current diagram succeedes, there will be no callback.
             });
         };
+
     </script>
 </body>
 </html>
