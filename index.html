@@ -14,11 +14,64 @@
         {
             var vs =
             {
+			    {
+var myDocument=new VS.Document();
+var rootShape=myDocument.GetTheShape();
+rootShape.SetLabel("Vendor Payment Processing").
+SetTextMargin(10);  //inherited by all shapes
 
-                Shape:
-                {
-                    Label: "Hello World"
-                }
+//create the shapes on the down connector
+var myConnectorDown=rootShape.AddShapeConnector("Flowchart");
+myConnectorDown.SetDirection(VS.Directions.Down);
+myConnectorDown.AddShape().SetLabel("Pull Vendor Invoice from Stack");
+
+var myDecision1=myConnectorDown.AddShape();
+myDecision1.SetLabel("Does Invoice have a Purchase Order Number?")
+.SetShapeType(VS.ShapeTypes.Diamond);
+
+myConnectorDown.AddShape().SetLabel("Match Invoice to Approved Purchase Order").SetLineLabel("Yes");
+
+var myDecision2=myConnectorDown.AddShape();
+myDecision2.SetLabel("Do the Amounts Match?")
+.SetShapeType(VS.ShapeTypes.Diamond);
+
+myConnectorDown.AddShape().SetLabel("Consult Manager on Discrepancy").SetLineLabel("No");
+
+var myDecision3=myConnectorDown.AddShape();
+myDecision3.SetLabel("Discrepancy Merit investigating?")
+.SetShapeType(VS.ShapeTypes.Diamond)
+.SetID(1);
+
+myConnectorDown.AddShape().SetLabel("Investigate and Rectify");
+
+//add the first decision branch
+var myDecisionConnector1=myDecision1.AddShapeConnector("Flowchart");
+myDecisionConnector1.SetDirection(VS.Directions.Right);
+myDecisionConnector1.AddShape().SetLabel("Contact Purchaser to Have Them Complete Purchase Order and Have it Approved")
+.SetLineLabel("No");
+
+//add the second decision branch
+var myDecisionConnector2=myDecision2.AddShapeConnector("Flowchart");
+myDecisionConnector2.SetDirection(VS.Directions.Right);
+var myDecision4=myDecisionConnector2.AddShape().SetLabel("Were Goods or Services Invoice Relates to Received?")
+.SetLineLabel("Yes").SetID(2);
+
+//now add the split path
+var myDecision4Connector1=myDecision4.AddShapeConnector("Flowchart");
+var myDecision4Connector2=myDecision4.AddShapeConnector("Flowchart");
+myDecision4Connector1.AddShape().SetLabel("Forward Invoice to Accounts Payable Clerk for Processing").SetLineLabel("Yes");
+var myShape2=myDecision4Connector2.AddShape().SetLabel("Contact Vendor to Notify Them Invoice is Being Held Pending Receipt of Goods or Service").SetLineLabel("No");
+
+//add the down connector
+var myDownConnector=myShape2.AddShapeConnector("Flowchart");
+myDownConnector.SetDirection(VS.Directions.Down);
+myDownConnector.AddShape().SetLabel("Place Invoice in 'HOLD' file");
+
+//add the return;
+var myReturn=myDocument.AddReturn(1,2);
+myReturn.SetLabel("No").SetStartDirection(VS.Directions.Right).SetStartDirection(VS.Directions.Bottom).SetLineColor("#FF0000");
+
+}
             };
 
             SDAPI.VS.VisualScriptDone(vs, function (crossWindowMessage)
