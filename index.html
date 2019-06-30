@@ -15,10 +15,46 @@
             var vs =
             {
 
-                Shape:
+                "DiagramType":"Flowchart",
+                "RootShape":[{
+                    "Label":"Root",
+                    "ShapeList": [{
+                        "Direction":"Right",
+                        "Shapes": [{
+                            "Label":"Shape 1",
+                            "ShapeList": [{
+                                "Direction":"Down",
+                                "Shapes": [
+                                   {"Label":"Child 1"},
+                                   {"Label":"Child 2"}
+                               ]}
+                ]},
                 {
-                    Label: "Hello World"
+                "Label":"Shape 2"
+                },
+                {
+                    "Label":"Shape 3",
+                    "ShapeList":[{
+                        "Direction":"Down",
+                        "Shapes": [
+                            {"Label":"Down 1"},
+                            {"Label":"Down 2"}
+                        ]},
+                 {
+                    "Direction":"Up","Shapes": [
+                        {"Label":"Up 1"},
+                        {"Label":"Up 2"}
+                    ]}
+                ]},
+                {
+                    "Label":"Shape 4"
+                },
+                {
+                    "Label":"Shape 5"
                 }
+            ]
+        }]
+    }]
             };
 
             SDAPI.VS.VisualScriptDone(vs, function (crossWindowMessage)
