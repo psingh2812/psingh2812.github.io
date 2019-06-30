@@ -13,16 +13,12 @@
         var go = function ()
         {
             var vs =
-            { 
-			    
-                var myDocument=new VS.Document();
-                var rootShape=myDocument.GetTheShape();
-                rootShape.SetLabel("First Shape");
-                var myConnector=rootShape.AddShapeConnector("Flowchart");
-                myConnector.AddShape().SetLabel("SecondShape");
-                myConnector.AddShape().SetLabel("Third Shape");
-                
-		
+            {
+
+                Shape:
+                {
+                    Label: "Hello World"
+                }
             };
 
             SDAPI.VS.VisualScriptDone(vs, function (crossWindowMessage)
